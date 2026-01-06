@@ -69,7 +69,7 @@ export function DashboardPage()
                     <button className="text-slate-400 hover:text-white"><i className='bx bx-dots-horizontal-rounded text-xl'></i></button>
                 </div>
                 <div className="relative w-full h-72">
-                    <canvas id="dashboardChart"></canvas>
+                    
                 </div>
             </div>
 

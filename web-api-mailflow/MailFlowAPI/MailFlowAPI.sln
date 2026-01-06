@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36811.4 d17.14
+VisualStudioVersion = 17.14.36811.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailFlow.BLL", "MailFlow.BLL\MailFlow.BLL.csproj", "{E48E5CA8-2801-4B5A-A5B6-E7C458DCC440}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailFlow.UTILITY", "MailFlow.UTILITY\MailFlow.UTILITY.csproj", "{F3244886-3262-4604-BB1C-7E6F62369EEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailFlow.API", "MailFlow.API\MailFlow.API.csproj", "{E5AC8800-9F1E-41BC-8CA2-EAFD26F80C0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailFlow.IOC", "MailFlow.IOC\MailFlow.IOC.csproj", "{42A84272-19F6-403E-953A-5F56A18252DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E5AC8800-9F1E-41BC-8CA2-EAFD26F80C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5AC8800-9F1E-41BC-8CA2-EAFD26F80C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5AC8800-9F1E-41BC-8CA2-EAFD26F80C0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A84272-19F6-403E-953A-5F56A18252DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A84272-19F6-403E-953A-5F56A18252DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A84272-19F6-403E-953A-5F56A18252DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A84272-19F6-403E-953A-5F56A18252DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

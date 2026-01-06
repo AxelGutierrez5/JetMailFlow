@@ -13,11 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\MailFlow.BE\MailFlow.BE.csproj" />
     <ProjectReference Include="..\MailFlow.BLL\MailFlow.BLL.csproj" />
+    <ProjectReference Include="..\MailFlow.IOC\MailFlow.IOC.csproj" />
     <ProjectReference Include="..\MailFlow.UTILITY\MailFlow.UTILITY.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

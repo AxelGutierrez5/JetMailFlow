@@ -15,9 +15,9 @@ export function SideBar() {
       
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-slate-700">
-        <i className="bx bxs-paper-plane text-indigo-500 text-2xl mr-2"></i>
+        <i className="bx bx-paper-plane text-indigo-500 text-2xl mr-2"></i>
         <span className="text-xl font-bold tracking-wide text-white">
-          MAILFLOW
+          JetMailFlow
         </span>
       </div>
 
