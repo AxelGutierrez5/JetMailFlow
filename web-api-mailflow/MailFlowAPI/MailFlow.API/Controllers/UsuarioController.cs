@@ -1,12 +1,15 @@
 ﻿using Azure;
 using FluentValidation;
-using MailFlow.BE.DTOs;
+using FluentValidation.Results;
+using MailFlow.BLL.DTOs;
 using MailFlow.BLL.Interfaces;
 using MailFlow.BLL.Validations;
 using MailFlow.UTILITY;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Response = MailFlow.BE.DTOs.Response;
+using ApiResponse = MailFlow.BLL.DTOs.ApiResponse;
+
 
 namespace MailFlow.API.Controllers
 {
@@ -22,21 +25,19 @@ namespace MailFlow.API.Controllers
         
         }
 
-        public async Task<ActionResult<Response>> Login([FromBody] LoginRequest session, IValidator<LoginRequest> loginValidator)
+        [HttpPost("login")]
+        public async Task<ActionResult<ApiResponse>> Login([FromBody] LoginRequest session, IValidator<LoginRequest> loginValidator)
         {
            
-            var response = new Response();
+            var response = new ApiResponse();
             try
             {
                 var results = loginValidator.Validate(session);
 
                 if (!results.IsValid)
                 {
-                    string errors = "";
-
-                    results.Errors.ForEach(x => errors += x.ErrorMessage + Environment.NewLine);
-
-                    throw new Exception(errors);
+                    response.Value = results.Errors.Select(error => error.ErrorMessage).ToList();
+                    throw new Exception("Error de validacion de datos");
                 }
 
                 LoginResult result = await _usuarioService.VerifyCredentialsAsync(session);
@@ -64,7 +65,7 @@ namespace MailFlow.API.Controllers
                         return Unauthorized(response);
 
                     default:
-                        return BadRequest("error inesperado");
+                        return BadRequest("ocurrio algo inesperado en el servidor");
                 }
 
             }
@@ -76,14 +77,27 @@ namespace MailFlow.API.Controllers
             }
         }
 
-        public async Task<ActionResult<UsuarioResponse>> Registrar([FromBody] UsuarioRegistoRequest usuario)
+        [HttpPost("register")]
+        public async Task<ActionResult<ApiResponse>> Registrar([FromBody] UsuarioRegistoRequest usuario, 
+                                                                    IValidator<UsuarioRegistoRequest> validator)
         {   
-            var response = new Response();
+            var response = new ApiResponse();
 
             try
             {
+                //Si tiene al menos una validacion asincrona usa validateAsync
+                var resultValidation = await validator.ValidateAsync(usuario);
+                if (!resultValidation.IsValid)
+                {
+                    response.Value = resultValidation.Errors.Select(error => error.ErrorMessage).ToList();
+                    throw new Exception("Error de validacion de datos");
 
-                return null;
+                }
+                response.Value = await _usuarioService.RegisterAsync(usuario);
+                response.Success = true;
+                response.Message = "Registrado con exito";
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -93,5 +107,14 @@ namespace MailFlow.API.Controllers
                 return BadRequest(response);
             }
         }
+        private string GetErrorsValidate(ValidationResult results)
+        {
+            string errors = "";
+            results.Errors.ForEach(x => errors += x.ErrorMessage + Environment.NewLine);
+
+            return errors;
+
+        }
+
     }
 }

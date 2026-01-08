@@ -1,4 +1,4 @@
-﻿using MailFlow.BE.DTOs;
+﻿using MailFlow.BLL.DTOs;
 using MailFlow.UTILITY;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ namespace MailFlow.BLL.Interfaces
     {
 
         Task<LoginResult> VerifyCredentialsAsync(LoginRequest session);
+        Task<UsuarioResponse> RegisterAsync(UsuarioRegistoRequest usuario);
     }
 
     

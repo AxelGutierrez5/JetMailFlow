@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MailFlow.BE.DTOs
+namespace MailFlow.BLL.DTOs
 {
     public class LoginRequest
     {

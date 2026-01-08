@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MailFlow.BE.DTOs
+namespace MailFlow.BLL.DTOs
 {
-    public class UsuarioRegistoRequest
+    public class UsuarioResponse
     {
+        public int UsuarioId { get; set; }
+
         public string NombreCompleto { get; set; } = null!;
 
         public string Email { get; set; } = null!;
 
-        public string Password { get; set; } = null!;
+        public string Creacion { get; set; } = null!;
+
     }
 }

@@ -56,7 +56,7 @@ public partial class DataContext : DbContext
         {
             entity.HasKey(e => e.CamapaniaId);
 
-            entity.Property(e => e.CamapaniaId).ValueGeneratedNever();
+            entity.Property(e => e.CamapaniaId).ValueGeneratedOnAdd();
             entity.Property(e => e.Estado)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -77,7 +77,7 @@ public partial class DataContext : DbContext
 
             entity.ToTable("Contacto");
 
-            entity.Property(e => e.ContactotId).ValueGeneratedNever();
+            entity.Property(e => e.ContactotId).ValueGeneratedOnAdd();
             entity.Property(e => e.Apellido)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -110,8 +110,8 @@ public partial class DataContext : DbContext
         modelBuilder.Entity<ListaContacto>(entity =>
         {
             entity.HasKey(e => e.ListaId);
-
-            entity.Property(e => e.ListaId).ValueGeneratedNever();
+            entity.ToTable("Lista");
+            entity.Property(e => e.ListaId).ValueGeneratedOnAdd();
             entity.Property(e => e.Creacion).HasColumnType("datetime");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
@@ -124,7 +124,7 @@ public partial class DataContext : DbContext
 
             entity.ToTable("TemplateEmail");
 
-            entity.Property(e => e.TemplateId).ValueGeneratedNever();
+            entity.Property(e => e.TemplateId).ValueGeneratedOnAdd();
             entity.Property(e => e.Asunto).IsUnicode(false);
             entity.Property(e => e.ContenidoHtml)
                 .IsUnicode(false)
@@ -144,10 +144,8 @@ public partial class DataContext : DbContext
         {
             entity.ToTable("Usuario");
 
-            entity.Property(e => e.UsuarioId).ValueGeneratedNever();
-            entity.Property(e => e.Creacion)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.UsuarioId).ValueGeneratedOnAdd();
+            entity.Property(e => e.Creacion).HasColumnType("datetime");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);

@@ -1,6 +1,6 @@
 ﻿
 using FluentValidation;
-using MailFlow.BLL;
+using MailFlow.BLL.Mapper;
 using MailFlow.BLL.Interfaces;
 using MailFlow.BLL.Validations;
 using MailFlow.DAL;
@@ -9,6 +9,7 @@ using MailFlow.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MailFlow.BLL.Services;
 
 namespace MailFlow.IOC
 {
@@ -22,12 +23,24 @@ namespace MailFlow.IOC
                 options.UseSqlServer(conf.GetConnectionString("cadenaSQL"));
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173") // <- React dev server
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
+
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IUsuarioService, UsuaarioService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
 
 
             services.AddValidatorsFromAssemblyContaining<LoginValidator>();
+            services.AddAutoMapper(config => config.AddProfile(typeof(MapperProfile)));
 
         }
 

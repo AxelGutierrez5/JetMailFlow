@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Validators;
-using MailFlow.BE.DTOs;
+using MailFlow.BLL.DTOs;
 using MailFlow.DAL.Interfaces;
 
 

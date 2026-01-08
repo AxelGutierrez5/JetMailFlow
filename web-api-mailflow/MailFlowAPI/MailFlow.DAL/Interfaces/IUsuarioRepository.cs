@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MailFlow.DAL.Interfaces
 {
-    public interface IUsuarioRepository
+    public interface IUsuarioRepository: IGenericRepository<Usuario>
     {
     }
 }

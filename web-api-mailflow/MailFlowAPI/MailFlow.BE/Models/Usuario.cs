@@ -13,7 +13,7 @@ public partial class Usuario
 
     public string Password { get; set; } = null!;
 
-    public string Creacion { get; set; } = null!;
+    public DateTime Creacion { get; set; } 
 
     public virtual ICollection<Campania> Campania { get; set; } = new List<Campania>();
 
