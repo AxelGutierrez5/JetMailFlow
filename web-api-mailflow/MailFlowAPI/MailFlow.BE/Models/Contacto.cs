@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MailFlow.DAL;
+namespace MailFlow.BE.Models;
 
 public partial class Contacto
 {
-    public int ContactotId { get; set; }
+    public int ContactoId { get; set; }
 
     public string Nombre { get; set; } = null!;
 
@@ -15,7 +15,9 @@ public partial class Contacto
 
     public DateTime Creacion { get; set; }
 
-    public virtual ICollection<CampaniaContacto> CampaniaContactos { get; set; } = new List<CampaniaContacto>();
+    public string Estado { get; set; } = null!;
 
-    public virtual ICollection<ListaContacto> Lista { get; set; } = new List<ListaContacto>();
+    public virtual ICollection<Envio> Envios { get; set; } = new List<Envio>();
+
+    public virtual ICollection<Lista> Lista { get; set; } = new List<Lista>();
 }

@@ -4,15 +4,12 @@ export function SideBar() {
   const base =
     "w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors group";
 
-  const active =
-    "text-indigo-400 bg-indigo-500/10";
+  const active = "text-indigo-400 bg-indigo-500/10";
 
-  const inactive =
-    "text-slate-400 hover:text-indigo-400 hover:bg-slate-700/50";
+  const inactive = "text-slate-400 hover:text-indigo-400 hover:bg-slate-700/50";
 
   return (
     <aside className="w-64 bg-slate-800 border-r border-slate-700 hidden md:flex md:flex-col shrink-0 transition-all duration-300">
-      
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-slate-700">
         <i className="bx bx-paper-plane text-indigo-500 text-2xl mr-2"></i>
@@ -23,7 +20,6 @@ export function SideBar() {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
-
         {/* Dashboard */}
         <NavLink
           to="/dashboard"

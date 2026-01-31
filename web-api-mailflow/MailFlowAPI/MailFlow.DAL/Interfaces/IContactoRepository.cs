@@ -8,7 +8,8 @@ using MailFlow.BE.Models;
 
 namespace MailFlow.DAL.Interfaces
 {
-    public interface IUsuarioRepository : IGenericRepository<Usuario>
+    public interface IContactoRepository : IGenericRepository<Contacto>
     {
+        Task<IEnumerable<Contacto>> GetContactosByListIdAsync(string listaId);
     }
 }

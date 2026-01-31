@@ -19,16 +19,16 @@ namespace MailFlow.API.Controllers
     {
         private IUsuarioService _usuarioService;
 
-        public UsuarioController(IUsuarioService usuarioService) 
+        public UsuarioController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
-        
+
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<ApiResponse>> Login([FromBody] LoginRequest session, IValidator<LoginRequest> loginValidator)
         {
-           
+
             var response = new ApiResponse();
             try
             {
@@ -51,7 +51,7 @@ namespace MailFlow.API.Controllers
 
                         return Ok(response);
 
-                       
+
                     case LoginResult.Invalid:
                         response.Success = false;
                         response.Message = "El email o contraseñas son invalidos";
@@ -77,10 +77,10 @@ namespace MailFlow.API.Controllers
             }
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult<ApiResponse>> Registrar([FromBody] UsuarioRegistoRequest usuario, 
+        [HttpPost("registrar")]
+        public async Task<ActionResult<ApiResponse>> Registrar([FromBody] UsuarioRegistoRequest usuario,
                                                                     IValidator<UsuarioRegistoRequest> validator)
-        {   
+        {
             var response = new ApiResponse();
 
             try
@@ -107,14 +107,25 @@ namespace MailFlow.API.Controllers
                 return BadRequest(response);
             }
         }
-        private string GetErrorsValidate(ValidationResult results)
-        {
-            string errors = "";
-            results.Errors.ForEach(x => errors += x.ErrorMessage + Environment.NewLine);
 
-            return errors;
+        [HttpGet("listar")]
+        public async Task<ActionResult<ApiResponse>> ListarUsuarios()
+        {
+            var response = new ApiResponse();
+            try
+            {
+                response.Value = await _usuarioService.GetAllAsync();
+                response.Success = true;
+                response.Message = "Lista de usuarios obtenida con exito";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                return BadRequest(response);
+            }
 
         }
-
     }
 }

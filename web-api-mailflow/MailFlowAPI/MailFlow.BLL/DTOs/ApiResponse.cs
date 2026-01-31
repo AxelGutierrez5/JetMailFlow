@@ -11,7 +11,7 @@ namespace MailFlow.BLL.DTOs
         public string Message { get; set; } = null!;
         public bool Success { get; set; }
         public object? Value { get; set; }
-        public string Token { get; set; }
+        public string? Token { get; set; }
 
 
     }

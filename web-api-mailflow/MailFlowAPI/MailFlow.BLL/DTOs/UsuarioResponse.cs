@@ -15,6 +15,7 @@ namespace MailFlow.BLL.DTOs
         public string Email { get; set; } = null!;
 
         public string Creacion { get; set; } = null!;
+        public string Rol { get; set; } = null!;
 
     }
 }

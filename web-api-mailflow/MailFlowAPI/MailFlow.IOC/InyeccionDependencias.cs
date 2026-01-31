@@ -1,15 +1,16 @@
 ﻿
 using FluentValidation;
-using MailFlow.BLL.Mapper;
+using Hangfire;
 using MailFlow.BLL.Interfaces;
+using MailFlow.BLL.Mapper;
+using MailFlow.BLL.Services;
 using MailFlow.BLL.Validations;
-using MailFlow.DAL;
 using MailFlow.DAL.Context;
 using MailFlow.DAL.Interfaces;
+using MailFlow.DAL.Respository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MailFlow.BLL.Services;
 
 namespace MailFlow.IOC
 {
@@ -38,9 +39,33 @@ namespace MailFlow.IOC
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUsuarioService, UsuarioService>();
 
-
             services.AddValidatorsFromAssemblyContaining<LoginValidator>();
+
+            services.AddScoped<IContactoRepository, ContactoRepository>();
+            services.AddScoped<IContactoService, ConctactoService>();
+
+            services.AddScoped<IListaRespository, ListaRepository>();
+            services.AddScoped<IListaService, ListaService>();
+
+            services.AddScoped<ICampaniaService, CampaniaService>();
+            services.AddScoped<ICampaniaRepository, CampaniaRepository>();
+
+            services.AddScoped<IMailService, GmailService>();
+
+            services.AddScoped<IEnvioRepository, EnvioRepository>();
+
             services.AddAutoMapper(config => config.AddProfile(typeof(MapperProfile)));
+
+            // Add Hangfire services.
+            services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(conf.GetConnectionString("cadenaSQL")));
+
+            // Add the processing server as IHostedService
+            services.AddHangfireServer();
+
 
         }
 

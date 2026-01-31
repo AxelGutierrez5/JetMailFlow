@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MailFlow.BE.Models;
 
-
-namespace MailFlow.DAL.Interfaces
+namespace MailFlow.BLL.DTOs
 {
-    public interface IUsuarioRepository : IGenericRepository<Usuario>
+    public class CampaniaModificarRequest
     {
+        public string Nombre { get; set; } = null!;
     }
 }

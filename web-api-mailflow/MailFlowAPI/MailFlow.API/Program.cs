@@ -1,3 +1,4 @@
+using Hangfire;
 using MailFlow.IOC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +27,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHangfireDashboard();
 }
+
 
 app.UseHttpsRedirection();
 

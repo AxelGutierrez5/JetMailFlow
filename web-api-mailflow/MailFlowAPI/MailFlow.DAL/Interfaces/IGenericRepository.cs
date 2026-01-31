@@ -23,5 +23,7 @@ namespace MailFlow.DAL.Interfaces
 
         Task UpdateAsync(TModel model);
 
+        Task SaveChangesAsync();
+
     }
 }

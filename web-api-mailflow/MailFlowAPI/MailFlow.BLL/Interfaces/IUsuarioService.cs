@@ -13,7 +13,9 @@ namespace MailFlow.BLL.Interfaces
 
         Task<LoginResult> VerifyCredentialsAsync(LoginRequest session);
         Task<UsuarioResponse> RegisterAsync(UsuarioRegistoRequest usuario);
+
+        public Task<IEnumerable<UsuarioResponse>> GetAllAsync();
+
     }
 
-    
 }

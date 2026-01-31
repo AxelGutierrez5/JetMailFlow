@@ -16,13 +16,15 @@ namespace MailFlow.BLL.Validations
 
         public LoginValidator(IUsuarioRepository usuarioRepository)
         {
+            base.ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("El email es obligatorio")
                 .EmailAddress().WithMessage("Formato de email incorrecto");
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("La contraseñá es obligatorio");
-                
+
 
         }
     }

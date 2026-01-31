@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MailFlow.DAL;
+namespace MailFlow.BE.Models;
 
 public partial class Usuario
 {
@@ -13,9 +13,13 @@ public partial class Usuario
 
     public string Password { get; set; } = null!;
 
-    public DateTime Creacion { get; set; } 
+    public DateTime Creacion { get; set; }
+
+    public string Rol { get; set; } = null!;
+
+    public bool Activo { get; set; }
 
     public virtual ICollection<Campania> Campania { get; set; } = new List<Campania>();
 
-    public virtual ICollection<TemplateEmail> TemplateEmails { get; set; } = new List<TemplateEmail>();
+    public virtual ICollection<Plantilla> Plantillas { get; set; } = new List<Plantilla>();
 }

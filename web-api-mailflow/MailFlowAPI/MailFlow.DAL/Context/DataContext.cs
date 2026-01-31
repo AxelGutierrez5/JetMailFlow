@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using MailFlow.DAL;
 using Microsoft.EntityFrameworkCore;
+using MailFlow.BE.Models;
+
 
 namespace MailFlow.DAL.Context;
 
@@ -16,54 +18,43 @@ public partial class DataContext : DbContext
     {
     }
 
-    public virtual DbSet<CampaniaContacto> CampaniaContactos { get; set; }
-
     public virtual DbSet<Campania> Campania { get; set; }
 
     public virtual DbSet<Contacto> Contactos { get; set; }
 
-    public virtual DbSet<ListaContacto> Lista { get; set; }
+    public virtual DbSet<Envio> Envios { get; set; }
 
-    public virtual DbSet<TemplateEmail> TemplateEmails { get; set; }
+    public virtual DbSet<Lista> Lista { get; set; }
+
+    public virtual DbSet<Plantilla> Plantillas { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-   
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CampaniaContacto>(entity =>
-        {
-            entity.HasKey(e => new { e.CampaniaId, e.ContactoId });
-
-            entity.ToTable("CampaniaContacto");
-
-            entity.Property(e => e.Estado)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Campania).WithMany(p => p.CampaniaContactos)
-                .HasForeignKey(d => d.CampaniaId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_CampaniaContacto_Campania");
-
-            entity.HasOne(d => d.Contacto).WithMany(p => p.CampaniaContactos)
-                .HasForeignKey(d => d.ContactoId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_CampaniaContacto_Contacto");
-        });
-
         modelBuilder.Entity<Campania>(entity =>
         {
-            entity.HasKey(e => e.CamapaniaId);
+            entity.HasKey(e => e.CampaniaId);
 
-            entity.Property(e => e.CamapaniaId).ValueGeneratedOnAdd();
+            entity.Property(e => e.Creacion).HasColumnType("datetime");
             entity.Property(e => e.Estado)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.FechaEnvio).HasColumnType("datetime");
+            entity.Property(e => e.FechaProgramada).HasColumnType("datetime");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Lista).WithMany(p => p.Campania)
+                .HasForeignKey(d => d.ListaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Campania_Lista");
+
+            entity.HasOne(d => d.Plantilla).WithMany(p => p.Campania)
+                .HasForeignKey(d => d.PlantillaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Campania_Plantilla");
 
             entity.HasOne(d => d.Usuario).WithMany(p => p.Campania)
                 .HasForeignKey(d => d.UsuarioId)
@@ -73,16 +64,16 @@ public partial class DataContext : DbContext
 
         modelBuilder.Entity<Contacto>(entity =>
         {
-            entity.HasKey(e => e.ContactotId);
-
             entity.ToTable("Contacto");
 
-            entity.Property(e => e.ContactotId).ValueGeneratedOnAdd();
             entity.Property(e => e.Apellido)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Creacion).HasColumnType("datetime");
             entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Estado)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Nombre)
@@ -91,40 +82,60 @@ public partial class DataContext : DbContext
 
             entity.HasMany(d => d.Lista).WithMany(p => p.Contactos)
                 .UsingEntity<Dictionary<string, object>>(
-                    "ContactoLista",
-                    r => r.HasOne<ListaContacto>().WithMany()
+                    "ListaContacto",
+                    r => r.HasOne<Lista>().WithMany()
                         .HasForeignKey("ListaId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_ContactoLista_Lista"),
+                        .HasConstraintName("FK_ListaContacto_Lista"),
                     l => l.HasOne<Contacto>().WithMany()
                         .HasForeignKey("ContactoId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_ContactoLista_Contacto"),
+                        .HasConstraintName("FK_ListaContacto_Contacto"),
                     j =>
                     {
-                        j.HasKey("ContactoId", "ListaId");
-                        j.ToTable("ContactoLista");
+                        j.HasKey("ContactoId", "ListaId").HasName("PK_ContactoLista");
+                        j.ToTable("ListaContacto");
                     });
         });
 
-        modelBuilder.Entity<ListaContacto>(entity =>
+        modelBuilder.Entity<Envio>(entity =>
+        {
+            entity.HasKey(e => e.EnvioId).HasName("PK_CampaniaContacto_1");
+
+            entity.ToTable("Envio");
+
+            entity.Property(e => e.Estado)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.FechaEnvio).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Campania).WithMany(p => p.Envios)
+                .HasForeignKey(d => d.CampaniaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Envio_Campania");
+
+            entity.HasOne(d => d.Contacto).WithMany(p => p.Envios)
+                .HasForeignKey(d => d.ContactoId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Envio_Contacto");
+        });
+
+        modelBuilder.Entity<Lista>(entity =>
         {
             entity.HasKey(e => e.ListaId);
-            entity.ToTable("Lista");
-            entity.Property(e => e.ListaId).ValueGeneratedOnAdd();
+
             entity.Property(e => e.Creacion).HasColumnType("datetime");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<TemplateEmail>(entity =>
+        modelBuilder.Entity<Plantilla>(entity =>
         {
-            entity.HasKey(e => e.TemplateId);
+            entity.HasKey(e => e.PlantillaId).HasName("PK_TemplateEmail");
 
-            entity.ToTable("TemplateEmail");
+            entity.ToTable("Plantilla");
 
-            entity.Property(e => e.TemplateId).ValueGeneratedOnAdd();
             entity.Property(e => e.Asunto).IsUnicode(false);
             entity.Property(e => e.ContenidoHtml)
                 .IsUnicode(false)
@@ -134,7 +145,7 @@ public partial class DataContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.Usuario).WithMany(p => p.TemplateEmails)
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Plantillas)
                 .HasForeignKey(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TemplateEmail_Usuario");
@@ -144,7 +155,6 @@ public partial class DataContext : DbContext
         {
             entity.ToTable("Usuario");
 
-            entity.Property(e => e.UsuarioId).ValueGeneratedOnAdd();
             entity.Property(e => e.Creacion).HasColumnType("datetime");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
@@ -153,6 +163,9 @@ public partial class DataContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Password).IsUnicode(false);
+            entity.Property(e => e.Rol)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);

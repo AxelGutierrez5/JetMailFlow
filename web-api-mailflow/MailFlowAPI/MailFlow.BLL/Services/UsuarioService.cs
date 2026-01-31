@@ -4,6 +4,7 @@ using MailFlow.BLL.DTOs;
 using MailFlow.DAL;
 using MailFlow.DAL.Interfaces;
 using MailFlow.UTILITY;
+using MailFlow.BE.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace MailFlow.BLL.Services
     {
         private IGenericRepository<Usuario> _genericRepository;
         private IMapper _mapper;
-        public UsuarioService(IGenericRepository<Usuario> genericRepository, IMapper mapper) 
+        public UsuarioService(IGenericRepository<Usuario> genericRepository, IMapper mapper)
         {
 
             _mapper = mapper;
@@ -31,7 +32,7 @@ namespace MailFlow.BLL.Services
             try
             {
 
-                var usuario = await _genericRepository.GetAsync(x=> x.Email == session.Email);
+                var usuario = await _genericRepository.GetAsync(x => x.Email == session.Email);
 
                 if (usuario is null)
                 {
@@ -52,7 +53,7 @@ namespace MailFlow.BLL.Services
             }
         }
 
-        public async Task<UsuarioResponse> RegisterAsync( UsuarioRegistoRequest registo)
+        public async Task<UsuarioResponse> RegisterAsync(UsuarioRegistoRequest registo)
         {
             try
             {
@@ -68,6 +69,18 @@ namespace MailFlow.BLL.Services
             }
         }
 
+        public async Task<IEnumerable<UsuarioResponse>> GetAllAsync()
+        {
+            try
+            {
+                return _mapper.Map<IEnumerable<UsuarioResponse>>(await _genericRepository.GetAllAsync());
 
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

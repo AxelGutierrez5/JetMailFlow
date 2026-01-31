@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MailFlow.DAL;
+namespace MailFlow.BE.Models;
 
-public partial class TemplateEmail
+public partial class Plantilla
 {
-    public int TemplateId { get; set; }
+    public int PlantillaId { get; set; }
 
     public int UsuarioId { get; set; }
 
@@ -15,7 +15,9 @@ public partial class TemplateEmail
 
     public string ContenidoHtml { get; set; } = null!;
 
-    public DateTime? Creacion { get; set; }
+    public DateTime Creacion { get; set; }
+
+    public virtual ICollection<Campania> Campania { get; set; } = new List<Campania>();
 
     public virtual Usuario Usuario { get; set; } = null!;
 }
