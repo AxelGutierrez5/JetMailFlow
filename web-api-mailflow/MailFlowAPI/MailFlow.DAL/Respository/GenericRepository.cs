@@ -20,44 +20,44 @@ namespace MailFlow.DAL.Respository
 
         }
 
-        public async Task CreateAsync(TModel model)
+        public virtual async Task CreateAsync(TModel model)
         {
             await _context.Set<TModel>().AddAsync(model);
             await _context.SaveChangesAsync();
 
         }
 
-        public async Task DeleteAsync(TModel model)
+        public virtual async Task DeleteAsync(TModel model)
         {
             _context.Set<TModel>().Remove(model);
             await _context.SaveChangesAsync();
 
         }
 
-        public async Task<IEnumerable<TModel>> FilterAsync(Expression<Func<TModel, bool>> expression)
+        public virtual async Task<IEnumerable<TModel>> FilterAsync(Expression<Func<TModel, bool>> expression)
         {
             return await _context.Set<TModel>().Where(expression).ToListAsync();
             
         }
 
-        public async Task<TModel?> GetAsync(Expression<Func<TModel, bool>> expression) 
+        public virtual async Task<TModel?> GetAsync(Expression<Func<TModel, bool>> expression) 
         {
            
             return await _context.Set<TModel>().FirstOrDefaultAsync(expression);
         }
 
-        public async Task<IEnumerable<TModel>> GetAllAsync()
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync()
         {
             return await _context.Set<TModel>().ToListAsync();
         }
 
-        public async Task UpdateAsync(TModel model)
+        public virtual async Task UpdateAsync(TModel model)
         {
             _context.Set<TModel>().Update(model);
             await _context.SaveChangesAsync();
         }
 
-        public async Task SaveChangesAsync()
+        public virtual async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

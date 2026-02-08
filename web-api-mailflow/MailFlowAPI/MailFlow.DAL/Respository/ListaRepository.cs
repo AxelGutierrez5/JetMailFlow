@@ -30,5 +30,19 @@ namespace MailFlow.DAL.Respository
                 throw;
             }
         }
+
+        public Task<int> HasReferenceAsync(string id)
+        {
+            try
+            {
+                var listaId = int.Parse(id);
+                var count =  _context.Campania.CountAsync(c => c.ListaId == listaId);
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

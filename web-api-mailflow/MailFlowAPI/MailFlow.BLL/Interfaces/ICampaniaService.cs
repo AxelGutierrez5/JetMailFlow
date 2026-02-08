@@ -10,7 +10,6 @@ namespace MailFlow.BLL.Interfaces
     public interface ICampaniaService
     {
         Task StartCampaign(string campaignId);
-
         Task<CampaniaResponse> RegisterAsync(CampaniaRegistroRequest request);
 
     }

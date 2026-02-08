@@ -13,7 +13,6 @@ namespace MailFlow.BLL.Interfaces
         Task<IEnumerable<ListaResponse>> GetAllAsync();
         Task<ListaResponse> CreateAsync(ListaRegistroRequest request);
         Task ModifyNameAsync(string id, string name);
-
         Task DeleteAsync(string id);
 
 

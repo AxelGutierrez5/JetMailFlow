@@ -50,6 +50,9 @@ namespace MailFlow.BLL.Services
         {
             try
             {
+                if(await  _listaRespository.HasReferenceAsync(id) > 0) 
+                    throw new InvalidOperationException("No se puede eliminar la lista porque tiene campañas asociadas.");
+
                 var lista = await _listaRespository.GetWithContacts(x => x.ListaId == int.Parse(id))
                             ?? throw new Exception("No se encontro la lista seleccionada");
 

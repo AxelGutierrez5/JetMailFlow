@@ -50,10 +50,14 @@ namespace MailFlow.IOC
             services.AddScoped<ICampaniaService, CampaniaService>();
             services.AddScoped<ICampaniaRepository, CampaniaRepository>();
 
+            services.AddScoped<IPlantillaService, PlantillaService>();
+            services.AddScoped<IPlantillaRepository, PlantillaRepository>();
+
             services.AddScoped<IMailService, GmailService>();
 
             services.AddScoped<IEnvioRepository, EnvioRepository>();
 
+            services.AddScoped<PlantillaResolve>();
             services.AddAutoMapper(config => config.AddProfile(typeof(MapperProfile)));
 
             // Add Hangfire services.

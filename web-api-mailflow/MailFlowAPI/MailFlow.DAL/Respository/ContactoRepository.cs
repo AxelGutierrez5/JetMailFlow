@@ -31,5 +31,20 @@ namespace MailFlow.DAL.Respository
                 throw;
             }        
         }
+
+        public override async Task DeleteAsync(Contacto model)
+        {
+            try
+            {
+                model.Estado = "Eliminado Logico";
+                await _context.SaveChangesAsync();            
+                    
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

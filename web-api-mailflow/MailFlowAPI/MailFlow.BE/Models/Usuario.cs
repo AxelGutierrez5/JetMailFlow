@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MailFlow.BE.Models;
+namespace MailFlow.BE.Models
+    ;
 
 public partial class Usuario
 {
